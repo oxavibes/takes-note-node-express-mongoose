@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const schemaProps = {
   title: {
     type: String,
-    required: [true, "A tour must have a title"],
+    required: [true, "A note must have a title"],
   },
   description: {
     type: String,

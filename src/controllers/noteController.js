@@ -6,7 +6,7 @@ const getAll = async (req, res) => {
     const notes = await Note.find();
 
     res.status(200).json({
-      status: "sucess",
+      status: "success",
       total: notes.length,
       data: {
         notes,
