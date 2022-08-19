@@ -28,5 +28,8 @@ app.use("/api/v1/notes", require("./routes/noteRoutes"));
     console.log("Connected to database successfully...");
 
     app.listen(port, () => console.log(`App running on port ${port}...`));
-  } catch (error) {}
+  } catch (err) {
+    console.log(err);
+    process.exit();
+  }
 })();
