@@ -23,12 +23,6 @@ const getNote = async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
 
-    if (note === null)
-      return res.status(404).json({
-        status: "error",
-        message: "Note doesn't exists",
-      });
-
     res.status(200).json({
       status: "success",
       data: {
@@ -68,12 +62,6 @@ const updateNote = async (req, res) => {
       runValidators: true,
     });
 
-    if (note === null)
-      return res.status(404).json({
-        status: "error",
-        message: "Note doesn't exists",
-      });
-
     res.status(200).json({
       status: "success",
       data: {
@@ -90,13 +78,7 @@ const updateNote = async (req, res) => {
 
 const deleteNote = async (req, res) => {
   try {
-    const note = await Note.findByIdAndDelete(req.params.id);
-
-    if (note === null)
-      return res.status(404).json({
-        status: "error",
-        message: "Note doesn't exists",
-      });
+    await Note.findByIdAndDelete(req.params.id);
 
     return res.status(201).json({});
   } catch (err) {
