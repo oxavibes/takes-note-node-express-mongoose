@@ -12,10 +12,7 @@ app.use(express.static(`${__dirname}/public`));
 
 if (process.env.NODE_ENV === "development") {
   db = process.env.DB_LOCAL;
-
   app.use(morgan("dev"));
-
-  console.log("Development mode");
 } else {
   db = process.env.DB_ATLAS.replace("<password>", process.env.DB_PASSWORD);
 }
@@ -24,10 +21,10 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/v1/notes", require("./routes/noteRoutes"));
 
 //Database
-(async () => {
+(() => {
   const port = process.env.PORT || 5000;
   try {
-    await mongoose.connect(db);
+    mongoose.connect(db);
     console.log("Connected to database successfully...");
 
     app.listen(port, () => console.log(`App running on port ${port}...`));
