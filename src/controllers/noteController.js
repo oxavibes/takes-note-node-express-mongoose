@@ -7,8 +7,8 @@ const getAll = async (req, res) => {
     res.status(200).json({
       status: "success",
       data: {
-        total: notes.length,
         notes,
+        total: notes.length,
       },
     });
   } catch (err) {
@@ -21,7 +21,13 @@ const getAll = async (req, res) => {
 
 const getNote = async (req, res) => {
   try {
-    const note = await Note.findById(req.id);
+    const note = await Note.findById(req.params.id);
+
+    if (note === null)
+      return res.status(404).json({
+        status: "error",
+        message: "Note doesn't exists",
+      });
 
     res.status(200).json({
       status: "success",
@@ -39,7 +45,7 @@ const getNote = async (req, res) => {
 
 const createNote = async (req, res) => {
   try {
-    const note = await Note.create(req.body)
+    const note = await Note.create(req.body);
 
     res.status(201).json({
       status: "success",
@@ -62,6 +68,12 @@ const updateNote = async (req, res) => {
       runValidators: true,
     });
 
+    if (note === null)
+      return res.status(404).json({
+        status: "error",
+        message: "Note doesn't exists",
+      });
+
     res.status(200).json({
       status: "success",
       data: {
@@ -78,9 +90,15 @@ const updateNote = async (req, res) => {
 
 const deleteNote = async (req, res) => {
   try {
-    await Note.findByIdAndDelete(req.id);
+    const note = await Note.findByIdAndDelete(req.params.id);
 
-    return res.status(201);
+    if (note === null)
+      return res.status(404).json({
+        status: "error",
+        message: "Note doesn't exists",
+      });
+
+    return res.status(201).json({});
   } catch (err) {
     res.status(404).json({
       status: "error",
